@@ -3,6 +3,7 @@ import express from 'express'
 import mongoose from 'mongoose'
 import Messages from './dbMessages.js';
 import Pusher from 'pusher';
+import cors from 'cors';
 
 // const Pusher = require('pusher');
 
@@ -22,11 +23,12 @@ var pusher = new Pusher({
 
 // middleware
 app.use(express.json());
-app.use((req, res, next) => {
-    res.setHeader("Access-Control-Allow-Origin", "*"),
-        res.setHeader("Access-Control-Allow-Header", "*"),
-        next();
-});
+app.use(cors());
+// app.use((req, res, next) => {
+//     res.setHeader("Access-Control-Allow-Origin", "*"),
+//         res.setHeader("Access-Control-Allow-Header", "*"),
+//         next();
+// });
 
 // DB Config
 const connection_url = "mongodb+srv://admin:QEvqVOtGdS7nHu64@cluster0.qz6at.mongodb.net/whatsappmern?retryWrites=true&w=majority";
