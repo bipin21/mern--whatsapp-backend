@@ -53,7 +53,8 @@ db.once('open', () => {
                 name: messageDetails.user,
                 message: messageDetails.message,
                 timestamp: messageDetails.timestamp,
-                recieved: messageDetails.recieved
+                recieved: messageDetails.recieved,
+                roomId: messageDetails.roomId,
             });
         }
         else {
@@ -65,8 +66,14 @@ db.once('open', () => {
 // api routes
 app.get("/", (req, res) => res.status(200).send('hello world'));
 
-app.get("/messages/sync", (req, res) => {
-    Messages.find((err, data) => {
+app.get(`/messages/sync`, (req, res) => {
+    var query = req.query;
+
+    // convert year parameter string to int if it exists 
+    if (query.hasOwnProperty("roomId")){
+        query["roomId"] = query.roomId;
+    }
+    Messages.find(query,(err, data) => {
         if (err) {
             res.status(500).send(err)
         }
