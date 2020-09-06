@@ -51,7 +51,9 @@ db.once('open', () => {
             const messageDetails = change.fullDocument;
             pusher.trigger('messages', 'inserted', {
                 name: messageDetails.user,
-                message: messageDetails.message
+                message: messageDetails.message,
+                timestamp: messageDetails.timestamp,
+                recieved: messageDetails.recieved
             });
         }
         else {
@@ -69,7 +71,7 @@ app.get("/messages/sync", (req, res) => {
             res.status(500).send(err)
         }
         else {
-            res.status(200).send(`All messages: \n ${data}`)
+            res.status(200).send(data)
         }
     })
 })
